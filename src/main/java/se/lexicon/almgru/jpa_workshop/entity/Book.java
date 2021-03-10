@@ -2,6 +2,7 @@ package se.lexicon.almgru.jpa_workshop.entity;
 
 import javax.persistence.*;
 import java.util.Objects;
+import java.util.Set;
 
 @Entity
 public class Book {
@@ -12,6 +13,9 @@ public class Book {
     private String isbn;
     private String title;
     private int maxLoanDays;
+
+    @ManyToMany
+    private Set<Author> authors;
 
     public Book(Integer bookId, String isbn, String title, int maxLoanDays) {
         this.bookId = bookId;
