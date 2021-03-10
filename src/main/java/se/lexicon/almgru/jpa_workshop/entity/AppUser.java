@@ -20,7 +20,7 @@ public class AppUser {
             cascade = {CascadeType.DETACH, CascadeType.REFRESH, CascadeType.PERSIST, CascadeType.MERGE},
             fetch = FetchType.LAZY
     )
-    @JoinColumn(name = "details_id")
+    @JoinColumn(name = "details_id", table = "app_user")
     private Details userDetails;
 
     public AppUser(Integer appUserId, String username, String password, LocalDate regDate, Details userDetails) {
@@ -75,20 +75,18 @@ public class AppUser {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         AppUser appUser = (AppUser) o;
-        return Objects.equals(appUserId, appUser.appUserId) && Objects.equals(username, appUser.username) && Objects.equals(password, appUser.password) && Objects.equals(regDate, appUser.regDate);
+        return Objects.equals(appUserId, appUser.appUserId) && Objects.equals(username, appUser.username) && Objects.equals(regDate, appUser.regDate);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(appUserId, username, password, regDate);
+        return Objects.hash(appUserId, username, regDate);
     }
 
     @Override
     public String toString() {
         return "AppUser{" +
                 "appUserId=" + appUserId +
-                ", username='" + username + '\'' +
-                ", password='" + password + '\'' +
                 ", regDate=" + regDate +
                 '}';
     }
