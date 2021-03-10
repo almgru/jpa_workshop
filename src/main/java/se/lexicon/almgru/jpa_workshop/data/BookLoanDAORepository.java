@@ -8,18 +8,11 @@ import javax.persistence.EntityManager;
 import java.util.Collection;
 
 @Repository
-public class BookLoanDAORepository implements BookLoanDAO {
-
-    private final EntityManager entityManager;
+public class BookLoanDAORepository extends GenericEntityDAORepository<BookLoan, Integer> {
 
     @Autowired
     public BookLoanDAORepository(EntityManager entityManager) {
-        this.entityManager = entityManager;
-    }
-
-    @Override
-    public BookLoan findById(Integer entityId) {
-        return entityManager.find(BookLoan.class, entityId);
+        super(BookLoan.class, entityManager);
     }
 
     @Override
@@ -27,36 +20,5 @@ public class BookLoanDAORepository implements BookLoanDAO {
         return entityManager
                 .createQuery("SELECT loan FROM BookLoan loan", BookLoan.class)
                 .getResultList();
-    }
-
-    @Override
-    public BookLoan create(BookLoan entity) {
-        entityManager.persist(entity);
-
-        if (entityManager.contains(entity)) {
-            return entity;
-        } else {
-            return null;
-        }
-    }
-
-    @Override
-    public BookLoan update(BookLoan entity) throws IllegalArgumentException {
-        if (!entityManager.contains(entity)) {
-            throw new IllegalArgumentException("Loan doesn't exist, use 'create' instead.");
-        }
-
-        return entityManager.merge(entity);
-    }
-
-    @Override
-    public void delete(Integer entityId) throws IllegalArgumentException {
-        BookLoan toRemove = findById(entityId);
-
-        if (toRemove == null) {
-            throw new IllegalArgumentException("Loan does not exist.");
-        }
-
-        entityManager.remove(toRemove);
     }
 }

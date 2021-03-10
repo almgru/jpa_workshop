@@ -9,18 +9,11 @@ import javax.persistence.EntityManager;
 import java.util.Collection;
 
 @Repository
-public class AppUserDAORepository implements AppUserDAO {
-    private final EntityManager entityManager;
+public class AppUserDAORepository extends GenericEntityDAORepository<AppUser, Integer> {
 
     @Autowired
     public AppUserDAORepository(EntityManager entityManager) {
-        this.entityManager = entityManager;
-    }
-
-    @Override
-    @Transactional(readOnly = true)
-    public AppUser findById(Integer userId) {
-        return entityManager.find(AppUser.class, userId);
+        super(AppUser.class, entityManager);
     }
 
     @Override
@@ -29,39 +22,5 @@ public class AppUserDAORepository implements AppUserDAO {
         return entityManager
                 .createQuery("SELECT appUser FROM AppUser appUser", AppUser.class)
                 .getResultList();
-    }
-
-    @Override
-    @Transactional
-    public AppUser create(AppUser user) {
-        entityManager.persist(user);
-
-        if (entityManager.contains(user)) {
-            return user;
-        } else {
-            return null;
-        }
-    }
-
-    @Override
-    @Transactional
-    public AppUser update(AppUser user) {
-        if (!entityManager.contains(user)) {
-            throw new IllegalArgumentException("User doesn't exist, use 'create' instead.");
-        }
-
-        return entityManager.merge(user);
-    }
-
-    @Override
-    @Transactional
-    public void delete(Integer userId) {
-        AppUser toRemove = findById(userId);
-
-        if (toRemove == null) {
-            throw new IllegalArgumentException("User does not exist.");
-        }
-
-        entityManager.remove(toRemove);
     }
 }

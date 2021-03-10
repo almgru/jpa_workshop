@@ -32,8 +32,8 @@ public class AppUserDAORepositoryTest {
     private TestEntityManager em;
 
     @Test
-    @DisplayName("create should return persisted student when student not present in DAO")
-    void create_should_returnPersistedStudent_when_studentNotPresent() {
+    @DisplayName("create should return persisted user when not present in DAO")
+    void create_should_returnPersistedUser_when_notPresent() {
         AppUser expected = new AppUser(null, "test", "test", LocalDate.now(), null);
         AppUser actual = dao.create(expected);
 
