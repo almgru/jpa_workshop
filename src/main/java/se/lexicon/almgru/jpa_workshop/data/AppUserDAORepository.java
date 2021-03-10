@@ -1,17 +1,21 @@
 package se.lexicon.almgru.jpa_workshop.data;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import se.lexicon.almgru.jpa_workshop.entity.AppUser;
 
 import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import java.util.Collection;
 
 @Repository
 public class AppUserDAORepository implements AppUserDAO {
-    @PersistenceContext
-    private EntityManager entityManager;
+    private final EntityManager entityManager;
+
+    @Autowired
+    public AppUserDAORepository(EntityManager entityManager) {
+        this.entityManager = entityManager;
+    }
 
     @Override
     @Transactional(readOnly = true)
