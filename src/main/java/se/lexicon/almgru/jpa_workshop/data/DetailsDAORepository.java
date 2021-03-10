@@ -19,7 +19,7 @@ public class DetailsDAORepository implements DetailsDAO {
 
     @Override
     @Transactional(readOnly = true)
-    public Details findById(int userDetailId) {
+    public Details findById(Integer userDetailId) {
         return entityManager.find(Details.class, userDetailId);
     }
 
@@ -55,7 +55,7 @@ public class DetailsDAORepository implements DetailsDAO {
 
     @Override
     @Transactional
-    public void delete(int userDetailId) {
+    public void delete(Integer userDetailId) {
         Details toRemove = findById(userDetailId);
 
         if (toRemove == null) {

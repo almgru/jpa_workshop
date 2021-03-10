@@ -19,7 +19,7 @@ public class AppUserDAORepository implements AppUserDAO {
 
     @Override
     @Transactional(readOnly = true)
-    public AppUser findById(int userId) {
+    public AppUser findById(Integer userId) {
         return entityManager.find(AppUser.class, userId);
     }
 
@@ -55,7 +55,7 @@ public class AppUserDAORepository implements AppUserDAO {
 
     @Override
     @Transactional
-    public void delete(int userId) {
+    public void delete(Integer userId) {
         AppUser toRemove = findById(userId);
 
         if (toRemove == null) {
