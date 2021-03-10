@@ -1,7 +1,5 @@
 package se.lexicon.almgru.jpa_workshop.data;
 
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,8 +13,7 @@ import se.lexicon.almgru.jpa_workshop.entity.Details;
 
 import java.time.LocalDate;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @AutoConfigureTestDatabase
@@ -35,6 +32,36 @@ public class DetailsDAORepositoryTest {
     void create_should_returnPersistedDetail_when_detailNotPresent() {
         Details expected = new Details(null, "test@test.com", "test", LocalDate.now());
         Details actual = dao.create(expected);
+
+        assertNotNull(actual.getDetailsId());
+        assertEquals(expected.getName(), actual.getName());
+        assertEquals(expected.getEmail(), actual.getEmail());
+        assertEquals(expected.getBirthDate(), actual.getBirthDate());
+    }
+
+    @Test
+    @DisplayName("create should throw IllegalArgumentException when details already present")
+    void create_should_throwIllegalArgumentException_when_detailsPresent() {
+        Details details = new Details(null, "test2@test.com", "test2", LocalDate.now());
+        em.persist(details);
+        em.flush();
+
+        assertNotNull(details.getDetailsId());
+
+        Exception e = assertThrows(RuntimeException.class, () -> dao.create(details));
+        assertEquals(IllegalArgumentException.class, e.getCause().getClass());
+    }
+
+    @Test
+    @DisplayName("findById should return expected details when present in DAO")
+    void findById_should_returnExpectedDetails_when_present() {
+        Details expected = new Details(null, "test3@test.com", "test3", LocalDate.now());
+        em.persist(expected);
+        em.flush();
+
+        assertNotNull(expected.getDetailsId());
+
+        Details actual = dao.findById(expected.getDetailsId());
 
         assertNotNull(actual.getDetailsId());
         assertEquals(expected.getName(), actual.getName());

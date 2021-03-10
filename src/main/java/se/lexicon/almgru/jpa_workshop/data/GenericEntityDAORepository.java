@@ -27,20 +27,20 @@ public abstract class GenericEntityDAORepository <T, ID> implements GenericEntit
     @Override
     @Transactional
     public T create(T entity) {
+        if (entityManager.contains(entity)) {
+            throw new IllegalArgumentException("Entity already present in repository. To update, use 'update' instead.");
+        }
+
         entityManager.persist(entity);
 
-        if (entityManager.contains(entity)) {
-            return entity;
-        } else {
-            return null;
-        }
+        return entity;
     }
 
     @Override
     @Transactional
     public T update(T entity) throws IllegalArgumentException {
         if (!entityManager.contains(entity)) {
-            throw new IllegalArgumentException("Detail doesn't exist, use 'create' instead.");
+            throw new IllegalArgumentException("Entity not present in repository, use 'create' instead.");
         }
 
         return entityManager.merge(entity);
@@ -52,7 +52,7 @@ public abstract class GenericEntityDAORepository <T, ID> implements GenericEntit
         T toRemove = findById(entityId);
 
         if (toRemove == null) {
-            throw new IllegalArgumentException("Detail does not exist.");
+            throw new IllegalArgumentException("Entity to remove not present in repository.");
         }
 
         entityManager.remove(toRemove);

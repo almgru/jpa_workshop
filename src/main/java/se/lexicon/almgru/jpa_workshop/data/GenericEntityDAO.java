@@ -19,9 +19,10 @@ public interface GenericEntityDAO<T, ID> {
     /**
      * Persist a new entity into the DAO.
      * @param entity entity to persist.
+     * @throws IllegalArgumentException if entity already persisted.
      * @return The persisted entity if entity was persisted, 'null' otherwise.
      */
-    T create(T entity);
+    T create(T entity) throws IllegalArgumentException;
 
     /**
      * Update an existing entity.

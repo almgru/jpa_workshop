@@ -11,8 +11,7 @@ import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.transaction.annotation.Transactional;
 import se.lexicon.almgru.jpa_workshop.entity.Book;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @AutoConfigureTestDatabase
@@ -37,6 +36,19 @@ public class BookDAORepositoryTest {
         assertEquals(expected.getIsbn(), actual.getIsbn());
         assertEquals(expected.getTitle(), actual.getTitle());
         assertEquals(expected.getMaxLoanDays(), actual.getMaxLoanDays());
+    }
+
+    @Test
+    @DisplayName("create should throw IllegalArgumentException when book already present")
+    void create_should_throwIllegalArgumentException_when_bookPresent() {
+        Book book = new Book(null, "isbn3", "title3", 90);
+        em.persist(book);
+        em.flush();
+
+        assertNotNull(book.getBookId());
+
+        Exception e = assertThrows(RuntimeException.class, () -> dao.create(book));
+        assertEquals(IllegalArgumentException.class, e.getCause().getClass());
     }
 
     @Test

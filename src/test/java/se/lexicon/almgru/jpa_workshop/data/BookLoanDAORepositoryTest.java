@@ -13,8 +13,7 @@ import se.lexicon.almgru.jpa_workshop.entity.BookLoan;
 
 import java.time.LocalDate;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @AutoConfigureTestDatabase
@@ -39,6 +38,19 @@ public class BookLoanDAORepositoryTest {
         assertEquals(expected.getLoanDate(), actual.getLoanDate());
         assertEquals(expected.getDueDate(), actual.getDueDate());
         assertEquals(expected.isReturned(), actual.isReturned());
+    }
+
+    @Test
+    @DisplayName("create should throw IllegalArgumentException when loan already present")
+    void create_should_throwIllegalArgumentException_when_loanPresent() {
+        BookLoan loan = new BookLoan(null, LocalDate.now(), LocalDate.now().plusDays(90), false, null, null);
+        em.persist(loan);
+        em.flush();
+
+        assertNotNull(loan.getLoanId());
+
+        Exception e = assertThrows(RuntimeException.class, () -> dao.create(loan));
+        assertEquals(IllegalArgumentException.class, e.getCause().getClass());
     }
 
     @Test

@@ -1,7 +1,5 @@
 package se.lexicon.almgru.jpa_workshop.data;
 
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,8 +13,7 @@ import se.lexicon.almgru.jpa_workshop.entity.AppUser;
 
 import java.time.LocalDate;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @AutoConfigureTestDatabase
@@ -41,6 +38,19 @@ public class AppUserDAORepositoryTest {
         assertEquals(expected.getUsername(), actual.getUsername());
         assertEquals(expected.getPassword(), actual.getPassword());
         assertEquals(expected.getRegDate(), actual.getRegDate());
+    }
+
+    @Test
+    @DisplayName("create should throw IllegalArgumentException when user already present")
+    void create_should_throwIllegalArgumentException_when_userPresent() {
+        AppUser user = new AppUser(null, "test3", "test3", LocalDate.now(), null);
+        em.persist(user);
+        em.flush();
+
+        assertNotNull(user.getAppUserId());
+
+        Exception e = assertThrows(RuntimeException.class, () -> dao.create(user));
+        assertEquals(IllegalArgumentException.class, e.getCause().getClass());
     }
 
     @Test
