@@ -56,7 +56,7 @@ public class DetailsDAORepository implements DetailsDAO {
     @Override
     @Transactional
     public void delete(int userDetailId) {
-        Details toRemove = entityManager.find(Details.class, userDetailId);
+        Details toRemove = findById(userDetailId);
 
         if (toRemove == null) {
             throw new IllegalArgumentException("Detail does not exist.");

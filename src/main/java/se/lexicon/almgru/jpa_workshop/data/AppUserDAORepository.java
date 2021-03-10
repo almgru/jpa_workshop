@@ -56,7 +56,7 @@ public class AppUserDAORepository implements AppUserDAO {
     @Override
     @Transactional
     public void delete(int userId) {
-        AppUser toRemove = entityManager.find(AppUser.class, userId);
+        AppUser toRemove = findById(userId);
 
         if (toRemove == null) {
             throw new IllegalArgumentException("User does not exist.");
