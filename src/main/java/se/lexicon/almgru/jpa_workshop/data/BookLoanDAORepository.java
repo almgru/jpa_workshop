@@ -19,26 +19,44 @@ public class BookLoanDAORepository implements BookLoanDAO {
 
     @Override
     public BookLoan findById(Integer entityId) {
-        return null;
+        return entityManager.find(BookLoan.class, entityId);
     }
 
     @Override
     public Collection<BookLoan> findAll() {
-        return null;
+        return entityManager
+                .createQuery("SELECT loan FROM BookLoan loan", BookLoan.class)
+                .getResultList();
     }
 
     @Override
     public BookLoan create(BookLoan entity) {
-        return null;
+        entityManager.persist(entity);
+
+        if (entityManager.contains(entity)) {
+            return entity;
+        } else {
+            return null;
+        }
     }
 
     @Override
     public BookLoan update(BookLoan entity) throws IllegalArgumentException {
-        return null;
+        if (!entityManager.contains(entity)) {
+            throw new IllegalArgumentException("Loan doesn't exist, use 'create' instead.");
+        }
+
+        return entityManager.merge(entity);
     }
 
     @Override
-    public void delete(Integer integer) throws IllegalArgumentException {
+    public void delete(Integer entityId) throws IllegalArgumentException {
+        BookLoan toRemove = findById(entityId);
 
+        if (toRemove == null) {
+            throw new IllegalArgumentException("Loan does not exist.");
+        }
+
+        entityManager.remove(toRemove);
     }
 }

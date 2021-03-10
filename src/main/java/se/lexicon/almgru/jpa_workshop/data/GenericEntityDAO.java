@@ -33,8 +33,8 @@ public interface GenericEntityDAO<T, ID> {
 
     /**
      * Remove an entity from the DAO.
-     * @param id id of entity to remove.
+     * @param entityId id of entity to remove.
      * @throws IllegalArgumentException if entity does not exist.
      */
-    void delete(ID id) throws IllegalArgumentException;
+    void delete(ID entityId) throws IllegalArgumentException;
 }
