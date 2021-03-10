@@ -2,6 +2,7 @@ package se.lexicon.almgru.jpa_workshop.data;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 import se.lexicon.almgru.jpa_workshop.entity.Author;
 
 import javax.persistence.EntityManager;
@@ -16,6 +17,7 @@ public class AuthorDAORepository extends GenericEntityDAORepository<Author, Inte
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Collection<Author> findAll() {
         return entityManager
                 .createQuery("SELECT author FROM Author author", Author.class)

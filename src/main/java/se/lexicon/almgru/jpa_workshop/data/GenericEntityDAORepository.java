@@ -37,7 +37,6 @@ public abstract class GenericEntityDAORepository <T, ID> implements GenericEntit
     /* This method is abstract because I do not know how to implement it in a generic way, so inheriting classes will
      * need to do it individually. */
     @Override
-    @Transactional(readOnly = true)
     public abstract Collection<T> findAll();
 
     @Override
