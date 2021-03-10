@@ -16,10 +16,7 @@ public class AppUser {
     private String password;
     private LocalDate regDate;
 
-    @OneToOne(
-            cascade = {CascadeType.DETACH, CascadeType.REFRESH, CascadeType.PERSIST, CascadeType.MERGE},
-            fetch = FetchType.LAZY
-    )
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "details_id", table = "app_user")
     private Details userDetails;
 
