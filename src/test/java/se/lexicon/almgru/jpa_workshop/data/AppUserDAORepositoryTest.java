@@ -31,16 +31,6 @@ public class AppUserDAORepositoryTest {
     @Autowired
     private TestEntityManager em;
 
-    @BeforeEach
-    void setup() {
-
-    }
-
-    @AfterEach
-    void teardown() {
-
-    }
-
     @Test
     @DisplayName("create should return persisted student when student not present in DAO")
     void create_should_returnPersistedStudent_when_studentNotPresent() {
@@ -48,6 +38,23 @@ public class AppUserDAORepositoryTest {
         AppUser actual = dao.create(expected);
 
         assertNotNull(actual.getAppUserId());
+        assertEquals(expected.getUsername(), actual.getUsername());
+        assertEquals(expected.getPassword(), actual.getPassword());
+        assertEquals(expected.getRegDate(), actual.getRegDate());
+    }
+
+    @Test
+    @DisplayName("findById should return expected user when present in DAO")
+    void findById_should_returnExpectedUser_when_present() {
+        AppUser expected = new AppUser(null, "test2", "test2", LocalDate.now(), null);
+        em.persist(expected);
+        em.flush();
+
+        assertNotNull(expected.getAppUserId());
+
+        AppUser actual = dao.findById(expected.getAppUserId());
+
+        assertEquals(expected.getAppUserId(), actual.getAppUserId());
         assertEquals(expected.getUsername(), actual.getUsername());
         assertEquals(expected.getPassword(), actual.getPassword());
         assertEquals(expected.getRegDate(), actual.getRegDate());
