@@ -29,16 +29,21 @@ public class BookLoanDAORepositoryTest {
     private TestEntityManager em;
 
     @Test
-    @DisplayName("create should return persisted loan when not present in DAO")
-    void create_should_returnPersistedLoan_when_notPresent() {
-        BookLoan expected = new BookLoan(null, LocalDate.now(), LocalDate.now().plusDays(90), false,
-                null, null);
-        BookLoan actual = dao.create(expected);
+    @DisplayName("create should persist loan when not already present in DAO")
+    void create_should_persistLoan_when_notPresent() {
+        fail("Test not implemented");
+    }
 
-        assertNotNull(actual.getLoanId());
-        assertEquals(expected.getLoanDate(), actual.getLoanDate());
-        assertEquals(expected.getDueDate(), actual.getDueDate());
-        assertEquals(expected.isReturned(), actual.isReturned());
+    @Test
+    @DisplayName("create should NOT persist unpersisted borrower")
+    void create_should_notPersistBorrower() {
+        fail("Test not implemented");
+    }
+
+    @Test
+    @DisplayName("create should NOT persist unpersisted book")
+    void create_should_notPersistBook() {
+        fail("Test not implemented");
     }
 
     @Test
@@ -53,23 +58,5 @@ public class BookLoanDAORepositoryTest {
 
         Exception e = assertThrows(RuntimeException.class, () -> dao.create(loan));
         assertEquals(IllegalArgumentException.class, e.getCause().getClass());
-    }
-
-    @Test
-    @DisplayName("findById should return expected loan when present in DAO")
-    void findById_should_returnExpectedLoan_when_present() {
-        BookLoan expected = new BookLoan(null, LocalDate.now(), LocalDate.now().plusDays(90), false,
-                null, null);
-        em.persist(expected);
-        em.flush();
-
-        assertNotNull(expected.getLoanId());
-
-        BookLoan actual = dao.findById(expected.getLoanId());
-
-        assertNotNull(actual.getLoanId());
-        assertEquals(expected.getLoanDate(), actual.getLoanDate());
-        assertEquals(expected.getDueDate(), actual.getDueDate());
-        assertEquals(expected.isReturned(), actual.isReturned());
     }
 }

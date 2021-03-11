@@ -29,19 +29,13 @@ public class AppUserDAORepositoryTest {
     private TestEntityManager em;
 
     @Test
-    @DisplayName("create should return persisted user when not present in DAO")
-    void create_should_returnPersistedUser_when_notPresent() {
-        AppUser expected = new AppUser("test", "test", LocalDate.now());
-        AppUser actual = dao.create(expected);
-
-        assertNotNull(actual.getAppUserId());
-        assertEquals(expected.getUsername(), actual.getUsername());
-        assertEquals(expected.getPassword(), actual.getPassword());
-        assertEquals(expected.getRegDate(), actual.getRegDate());
+    @DisplayName("create should persist user when not already present in DAO")
+    void create_should_persistUser_when_notPresent() {
+        fail("Test not implemented");
     }
 
     @Test
-    @DisplayName("create should throw IllegalArgumentException when user already present")
+    @DisplayName("create should throw IllegalArgumentException when user already present in DAO")
     void create_should_throwIllegalArgumentException_when_userPresent() {
         AppUser user = new AppUser("test3", "test3", LocalDate.now());
         em.persist(user);
@@ -54,19 +48,20 @@ public class AppUserDAORepositoryTest {
     }
 
     @Test
-    @DisplayName("findById should return expected user when present in DAO")
-    void findById_should_returnExpectedUser_when_present() {
-        AppUser expected = new AppUser("test2", "test2", LocalDate.now());
-        em.persist(expected);
-        em.flush();
+    @DisplayName("create should persist unpersisted book loans")
+    void create_should_persistUnpersistedBookLoans() {
+        fail("Test not implemented");
+    }
 
-        assertNotNull(expected.getAppUserId());
+    @Test
+    @DisplayName("create should persist unpersisted user details")
+    void create_should_persistUnpersistedUserDetails() {
+        fail("Test not implemented");
+    }
 
-        AppUser actual = dao.findById(expected.getAppUserId());
-
-        assertEquals(expected.getAppUserId(), actual.getAppUserId());
-        assertEquals(expected.getUsername(), actual.getUsername());
-        assertEquals(expected.getPassword(), actual.getPassword());
-        assertEquals(expected.getRegDate(), actual.getRegDate());
+    @Test
+    @DisplayName("create should throw exception when username not unique")
+    void create_should_throwException_when_usernameNotUnique() {
+        fail("Test not implemented");
     }
 }

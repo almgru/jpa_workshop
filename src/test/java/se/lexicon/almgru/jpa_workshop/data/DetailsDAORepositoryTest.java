@@ -28,15 +28,9 @@ public class DetailsDAORepositoryTest {
     private TestEntityManager em;
 
     @Test
-    @DisplayName("create should return persisted detail when detail not present in DAO")
-    void create_should_returnPersistedDetail_when_detailNotPresent() {
-        Details expected = new Details("test@test.com", "test", LocalDate.now());
-        Details actual = dao.create(expected);
-
-        assertNotNull(actual.getDetailsId());
-        assertEquals(expected.getName(), actual.getName());
-        assertEquals(expected.getEmail(), actual.getEmail());
-        assertEquals(expected.getBirthDate(), actual.getBirthDate());
+    @DisplayName("create should persist user details when not already present in DAO")
+    void create_should_persistDetails_when_notPresent() {
+        fail("Test not implemented");
     }
 
     @Test
@@ -53,19 +47,8 @@ public class DetailsDAORepositoryTest {
     }
 
     @Test
-    @DisplayName("findById should return expected details when present in DAO")
-    void findById_should_returnExpectedDetails_when_present() {
-        Details expected = new Details("test3@test.com", "test3", LocalDate.now());
-        em.persist(expected);
-        em.flush();
-
-        assertNotNull(expected.getDetailsId());
-
-        Details actual = dao.findById(expected.getDetailsId());
-
-        assertNotNull(actual.getDetailsId());
-        assertEquals(expected.getName(), actual.getName());
-        assertEquals(expected.getEmail(), actual.getEmail());
-        assertEquals(expected.getBirthDate(), actual.getBirthDate());
+    @DisplayName("create should throw exception when email not unique")
+    void create_should_throwException_when_emailNotUnique() {
+        fail("Test not implemented");
     }
 }

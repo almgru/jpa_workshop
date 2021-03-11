@@ -28,14 +28,9 @@ public class AuthorDAORepositoryTest {
     private TestEntityManager em;
 
     @Test
-    @DisplayName("create should return persisted author when not present in DAO")
-    void create_should_returnPersistedAuthor_when_NotPresent() {
-        Author expected = new Author("Test", "Testsson");
-        Author actual = dao.create(expected);
-
-        assertNotNull(actual.getAuthorId());
-        assertEquals(expected.getFirstName(), actual.getFirstName());
-        assertEquals(expected.getLastName(), actual.getLastName());
+    @DisplayName("create should persist author when not already present in DAO")
+    void create_should_persistAuthor_when_notPresent() {
+        fail("Test not implemented");
     }
 
     @Test
@@ -52,18 +47,8 @@ public class AuthorDAORepositoryTest {
     }
 
     @Test
-    @DisplayName("findById should return expected author when present in DAO")
-    void findById_should_returnExpectedAuthor_when_present() {
-        Author expected = new Author("Test III", "Testsson");
-        em.persist(expected);
-        em.flush();
-
-        assertNotNull(expected.getAuthorId());
-
-        Author actual = dao.findById(expected.getAuthorId());
-
-        assertNotNull(actual.getAuthorId());
-        assertEquals(expected.getFirstName(), actual.getFirstName());
-        assertEquals(expected.getLastName(), actual.getLastName());
+    @DisplayName("create should persist unpersisted books written by the author")
+    void create_should_persistUnpersistedBooks() {
+        fail("Test not implemented");
     }
 }

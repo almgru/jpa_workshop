@@ -27,15 +27,9 @@ public class BookDAORepositoryTest {
     private TestEntityManager em;
 
     @Test
-    @DisplayName("create should return persisted book when not present in DAO")
-    void create_should_returnPersistedBook_when_BookNotPresent() {
-        Book expected = new Book("isbn", "title", 90);
-        Book actual = dao.create(expected);
-
-        assertNotNull(actual.getBookId());
-        assertEquals(expected.getIsbn(), actual.getIsbn());
-        assertEquals(expected.getTitle(), actual.getTitle());
-        assertEquals(expected.getMaxLoanDays(), actual.getMaxLoanDays());
+    @DisplayName("create should persist book when not already present in DAO")
+    void create_should_persistBook_when_notPresent() {
+        fail("Test not implemented");
     }
 
     @Test
@@ -49,22 +43,5 @@ public class BookDAORepositoryTest {
 
         Exception e = assertThrows(RuntimeException.class, () -> dao.create(book));
         assertEquals(IllegalArgumentException.class, e.getCause().getClass());
-    }
-
-    @Test
-    @DisplayName("findById should return expected book when present in DAO")
-    void findById_should_returnExpectedBook_when_present() {
-        Book expected = new Book("isbn2", "title2", 90);
-        em.persist(expected);
-        em.flush();
-
-        assertNotNull(expected.getBookId());
-
-        Book actual = dao.findById(expected.getBookId());
-
-        assertNotNull(actual.getBookId());
-        assertEquals(expected.getIsbn(), actual.getIsbn());
-        assertEquals(expected.getTitle(), actual.getTitle());
-        assertEquals(expected.getMaxLoanDays(), actual.getMaxLoanDays());
     }
 }
