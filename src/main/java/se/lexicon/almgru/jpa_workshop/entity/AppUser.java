@@ -2,6 +2,7 @@ package se.lexicon.almgru.jpa_workshop.entity;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -19,6 +20,13 @@ public class AppUser {
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "details_id", table = "app_user")
     private Details userDetails;
+
+    @OneToMany(
+            cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH},
+            fetch = FetchType.LAZY,
+            mappedBy = "borrower"
+    )
+    private List<BookLoan> loans;
 
     public AppUser(Integer appUserId, String username, String password, LocalDate regDate, Details userDetails) {
         this.appUserId = appUserId;
@@ -65,6 +73,14 @@ public class AppUser {
 
     public void setUserDetails(Details userDetails) {
         this.userDetails = userDetails;
+    }
+
+    public List<BookLoan> getLoans() {
+        return loans;
+    }
+
+    public void setLoans(List<BookLoan> loans) {
+        this.loans = loans;
     }
 
     @Override
