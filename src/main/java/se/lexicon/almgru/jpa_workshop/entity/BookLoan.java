@@ -1,5 +1,7 @@
 package se.lexicon.almgru.jpa_workshop.entity;
 
+import org.springframework.lang.NonNull;
+
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.Objects;
@@ -29,6 +31,10 @@ public class BookLoan {
         this.returned = returned;
         this.borrower = borrower;
         this.book = book;
+    }
+
+    public BookLoan(AppUser borrower, @NonNull Book book, LocalDate loanDate) {
+        this(null, loanDate, loanDate.plusDays(book.getMaxLoanDays()), false, borrower, book);
     }
 
     public BookLoan() {

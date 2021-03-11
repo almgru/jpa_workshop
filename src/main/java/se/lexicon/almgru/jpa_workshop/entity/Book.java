@@ -13,6 +13,7 @@ public class Book {
     private String isbn;
     private String title;
     private int maxLoanDays;
+    private boolean available;
 
     @ManyToMany(
             cascade = {CascadeType.DETACH, CascadeType.REFRESH, CascadeType.MERGE, CascadeType.PERSIST},
@@ -25,11 +26,16 @@ public class Book {
     )
     private Set<Author> authors;
 
-    public Book(Integer bookId, String isbn, String title, int maxLoanDays) {
+    public Book(Integer bookId, String isbn, String title, int maxLoanDays, boolean available) {
         this.bookId = bookId;
         this.isbn = isbn;
         this.title = title;
         this.maxLoanDays = maxLoanDays;
+        this.available = available;
+    }
+
+    public Book(String isbn, String title, int maxLoanDays) {
+        this(null, isbn, title, maxLoanDays, true);
     }
 
     public Book() {
@@ -69,6 +75,19 @@ public class Book {
 
     public void setAuthors(Set<Author> authors) {
         this.authors = authors;
+    }
+
+    public void addAuthor(Author author) {
+        authors.add(author);
+        author.getWrittenBooks().add(this);
+    }
+
+    public boolean isAvailable() {
+        return available;
+    }
+
+    public void setAvailable(boolean available) {
+        this.available = available;
     }
 
     @Override

@@ -19,7 +19,7 @@ import static org.junit.jupiter.api.Assertions.*;
 @AutoConfigureTestDatabase
 @AutoConfigureTestEntityManager
 @Transactional
-@DirtiesContext
+@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 public class AppUserDAORepositoryTest {
 
     @Autowired
@@ -31,7 +31,7 @@ public class AppUserDAORepositoryTest {
     @Test
     @DisplayName("create should return persisted user when not present in DAO")
     void create_should_returnPersistedUser_when_notPresent() {
-        AppUser expected = new AppUser(null, "test", "test", LocalDate.now(), null);
+        AppUser expected = new AppUser("test", "test", LocalDate.now());
         AppUser actual = dao.create(expected);
 
         assertNotNull(actual.getAppUserId());
@@ -43,7 +43,7 @@ public class AppUserDAORepositoryTest {
     @Test
     @DisplayName("create should throw IllegalArgumentException when user already present")
     void create_should_throwIllegalArgumentException_when_userPresent() {
-        AppUser user = new AppUser(null, "test3", "test3", LocalDate.now(), null);
+        AppUser user = new AppUser("test3", "test3", LocalDate.now());
         em.persist(user);
         em.flush();
 
@@ -56,7 +56,7 @@ public class AppUserDAORepositoryTest {
     @Test
     @DisplayName("findById should return expected user when present in DAO")
     void findById_should_returnExpectedUser_when_present() {
-        AppUser expected = new AppUser(null, "test2", "test2", LocalDate.now(), null);
+        AppUser expected = new AppUser("test2", "test2", LocalDate.now());
         em.persist(expected);
         em.flush();
 

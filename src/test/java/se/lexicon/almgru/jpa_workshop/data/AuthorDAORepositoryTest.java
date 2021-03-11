@@ -18,7 +18,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 @AutoConfigureTestDatabase
 @AutoConfigureTestEntityManager
 @Transactional
-@DirtiesContext
+@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 public class AuthorDAORepositoryTest {
 
     @Autowired
@@ -30,7 +30,7 @@ public class AuthorDAORepositoryTest {
     @Test
     @DisplayName("create should return persisted author when not present in DAO")
     void create_should_returnPersistedAuthor_when_NotPresent() {
-        Author expected = new Author(null, "Test", "Testsson", null);
+        Author expected = new Author("Test", "Testsson");
         Author actual = dao.create(expected);
 
         assertNotNull(actual.getAuthorId());
@@ -41,7 +41,7 @@ public class AuthorDAORepositoryTest {
     @Test
     @DisplayName("create should throw IllegalArgumentException when author already present")
     void create_should_throwIllegalArgumentException_when_present() {
-        Author author = new Author(null, "Test II", "Testsson", null);
+        Author author = new Author("Test II", "Testsson");
         em.persist(author);
         em.flush();
 
@@ -54,7 +54,7 @@ public class AuthorDAORepositoryTest {
     @Test
     @DisplayName("findById should return expected author when present in DAO")
     void findById_should_returnExpectedAuthor_when_present() {
-        Author expected = new Author(null, "Test III", "Testsson", null);
+        Author expected = new Author("Test III", "Testsson");
         em.persist(expected);
         em.flush();
 

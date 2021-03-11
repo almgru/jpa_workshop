@@ -23,6 +23,10 @@ public class Details {
         this.birthDate = birthDate;
     }
 
+    public Details(String email, String name, LocalDate birthDate) {
+        this(null, email, name, birthDate);
+    }
+
     public Details() {
     }
 

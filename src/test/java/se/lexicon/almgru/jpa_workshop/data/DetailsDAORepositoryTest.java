@@ -19,7 +19,7 @@ import static org.junit.jupiter.api.Assertions.*;
 @AutoConfigureTestDatabase
 @AutoConfigureTestEntityManager
 @Transactional
-@DirtiesContext
+@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 public class DetailsDAORepositoryTest {
     @Autowired
     private DetailsDAORepository dao;
@@ -30,7 +30,7 @@ public class DetailsDAORepositoryTest {
     @Test
     @DisplayName("create should return persisted detail when detail not present in DAO")
     void create_should_returnPersistedDetail_when_detailNotPresent() {
-        Details expected = new Details(null, "test@test.com", "test", LocalDate.now());
+        Details expected = new Details("test@test.com", "test", LocalDate.now());
         Details actual = dao.create(expected);
 
         assertNotNull(actual.getDetailsId());
@@ -42,7 +42,7 @@ public class DetailsDAORepositoryTest {
     @Test
     @DisplayName("create should throw IllegalArgumentException when details already present")
     void create_should_throwIllegalArgumentException_when_detailsPresent() {
-        Details details = new Details(null, "test2@test.com", "test2", LocalDate.now());
+        Details details = new Details("test2@test.com", "test2", LocalDate.now());
         em.persist(details);
         em.flush();
 
@@ -55,7 +55,7 @@ public class DetailsDAORepositoryTest {
     @Test
     @DisplayName("findById should return expected details when present in DAO")
     void findById_should_returnExpectedDetails_when_present() {
-        Details expected = new Details(null, "test3@test.com", "test3", LocalDate.now());
+        Details expected = new Details("test3@test.com", "test3", LocalDate.now());
         em.persist(expected);
         em.flush();
 

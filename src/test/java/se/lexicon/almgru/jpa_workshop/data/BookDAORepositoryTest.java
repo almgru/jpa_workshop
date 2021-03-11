@@ -17,7 +17,7 @@ import static org.junit.jupiter.api.Assertions.*;
 @AutoConfigureTestDatabase
 @AutoConfigureTestEntityManager
 @Transactional
-@DirtiesContext
+@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 public class BookDAORepositoryTest {
 
     @Autowired
@@ -29,7 +29,7 @@ public class BookDAORepositoryTest {
     @Test
     @DisplayName("create should return persisted book when not present in DAO")
     void create_should_returnPersistedBook_when_BookNotPresent() {
-        Book expected = new Book(null, "isbn", "title", 90);
+        Book expected = new Book("isbn", "title", 90);
         Book actual = dao.create(expected);
 
         assertNotNull(actual.getBookId());
@@ -41,7 +41,7 @@ public class BookDAORepositoryTest {
     @Test
     @DisplayName("create should throw IllegalArgumentException when book already present")
     void create_should_throwIllegalArgumentException_when_bookPresent() {
-        Book book = new Book(null, "isbn3", "title3", 90);
+        Book book = new Book("isbn3", "title3", 90);
         em.persist(book);
         em.flush();
 
@@ -54,7 +54,7 @@ public class BookDAORepositoryTest {
     @Test
     @DisplayName("findById should return expected book when present in DAO")
     void findById_should_returnExpectedBook_when_present() {
-        Book expected = new Book(null, "isbn2", "title2", 90);
+        Book expected = new Book("isbn2", "title2", 90);
         em.persist(expected);
         em.flush();
 

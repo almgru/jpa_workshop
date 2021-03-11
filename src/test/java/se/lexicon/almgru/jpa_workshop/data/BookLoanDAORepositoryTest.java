@@ -19,7 +19,7 @@ import static org.junit.jupiter.api.Assertions.*;
 @AutoConfigureTestDatabase
 @AutoConfigureTestEntityManager
 @Transactional
-@DirtiesContext
+@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 public class BookLoanDAORepositoryTest {
 
     @Autowired
@@ -31,7 +31,8 @@ public class BookLoanDAORepositoryTest {
     @Test
     @DisplayName("create should return persisted loan when not present in DAO")
     void create_should_returnPersistedLoan_when_notPresent() {
-        BookLoan expected = new BookLoan(null, LocalDate.now(), LocalDate.now().plusDays(90), false, null, null);
+        BookLoan expected = new BookLoan(null, LocalDate.now(), LocalDate.now().plusDays(90), false,
+                null, null);
         BookLoan actual = dao.create(expected);
 
         assertNotNull(actual.getLoanId());
@@ -43,7 +44,8 @@ public class BookLoanDAORepositoryTest {
     @Test
     @DisplayName("create should throw IllegalArgumentException when loan already present")
     void create_should_throwIllegalArgumentException_when_loanPresent() {
-        BookLoan loan = new BookLoan(null, LocalDate.now(), LocalDate.now().plusDays(90), false, null, null);
+        BookLoan loan = new BookLoan(null, LocalDate.now(), LocalDate.now().plusDays(90), false,
+                null, null);
         em.persist(loan);
         em.flush();
 
@@ -56,7 +58,8 @@ public class BookLoanDAORepositoryTest {
     @Test
     @DisplayName("findById should return expected loan when present in DAO")
     void findById_should_returnExpectedLoan_when_present() {
-        BookLoan expected = new BookLoan(null, LocalDate.now(), LocalDate.now().plusDays(90), false, null, null);
+        BookLoan expected = new BookLoan(null, LocalDate.now(), LocalDate.now().plusDays(90), false,
+                null, null);
         em.persist(expected);
         em.flush();
 

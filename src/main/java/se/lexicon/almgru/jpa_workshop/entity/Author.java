@@ -1,6 +1,7 @@
 package se.lexicon.almgru.jpa_workshop.entity;
 
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
@@ -29,6 +30,10 @@ public class Author {
         this.firstName = firstName;
         this.lastName = lastName;
         this.writtenBooks = writtenBooks;
+    }
+
+    public Author(String firstName, String lastName) {
+        this(null, firstName, lastName, new HashSet<>());
     }
 
     public Author() {
@@ -60,6 +65,11 @@ public class Author {
 
     public void setWrittenBooks(Set<Book> writtenBooks) {
         this.writtenBooks = writtenBooks;
+    }
+
+    public void addWrittenBook(Book book) {
+        writtenBooks.add(book);
+        book.getAuthors().add(this);
     }
 
     @Override

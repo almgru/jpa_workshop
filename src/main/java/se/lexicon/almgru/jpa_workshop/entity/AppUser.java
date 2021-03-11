@@ -36,6 +36,14 @@ public class AppUser {
         this.userDetails = userDetails;
     }
 
+    public AppUser(String username, String password, LocalDate regDate, Details userDetails) {
+        this(null, username, password, regDate, userDetails);
+    }
+
+    public AppUser(String username, String password, LocalDate regDate) {
+        this(username, password, regDate, null);
+    }
+
     public AppUser() {
     }
 
@@ -81,6 +89,14 @@ public class AppUser {
 
     public void setLoans(List<BookLoan> loans) {
         this.loans = loans;
+    }
+
+    public void addLoan(BookLoan loan) {
+        if (loan.getBook().isAvailable()) {
+            this.loans.add(loan);
+            loan.setBorrower(this);
+            loan.getBook().setAvailable(false);
+        }
     }
 
     @Override
