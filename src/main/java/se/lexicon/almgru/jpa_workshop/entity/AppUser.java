@@ -2,6 +2,7 @@ package se.lexicon.almgru.jpa_workshop.entity;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -28,16 +29,18 @@ public class AppUser {
     )
     private List<BookLoan> loans;
 
-    public AppUser(Integer appUserId, String username, String password, LocalDate regDate, Details userDetails) {
+    public AppUser(Integer appUserId, String username, String password, LocalDate regDate, Details userDetails,
+                   List<BookLoan> loans) {
         this.appUserId = appUserId;
         this.username = username;
         this.password = password;
         this.regDate = regDate;
         this.userDetails = userDetails;
+        this.loans = loans;
     }
 
     public AppUser(String username, String password, LocalDate regDate, Details userDetails) {
-        this(null, username, password, regDate, userDetails);
+        this(null, username, password, regDate, userDetails, new ArrayList<>());
     }
 
     public AppUser(String username, String password, LocalDate regDate) {
